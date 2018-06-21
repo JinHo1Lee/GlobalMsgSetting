@@ -1,0 +1,88 @@
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>Setting Global Msessage</title>
+    </head>
+    <body>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<div class="page-header">
+			<h1 style="display:inline;margin-left:20px;margin-right:30px;">
+				<a href="/setMsg" > Sender ID </a>
+			</h1>
+			
+			<h1 style="display:inline;margin-left:20px;margin-right:30px;">
+				<a href="/setMsg/custom">서명</a>
+			</h1>
+		</div>
+
+		<form action="{% url 'setMsg:default' %}" method="post" >
+		{% csrf_token %}
+			<div style="margin-top:20px;margin-bottom:20px">
+				<p>
+				<h2 style="display:inline;margin-left:30px;font-size:15px">
+					국가:
+				</h2>
+				<h2 style="display:inline;margin-left:5px;margin-right:30px;font-size:15px">
+					<select name="country_sel" id="country_sel-select">
+						<option value="0">------------------</option>
+					{% if selInfo.countrySelList %}
+						{% for country in selInfo.countrySelList %}
+						<option value="{{ country.country_code }}"
+							{% if selCode.countrySelCode == country.country_code %}
+								selected="selected"
+							{% endif %}>{{ country.country_name }}
+						</option>
+						{% endfor %}
+					{% endif %}
+					</select>
+				</h2>
+				<h2 style="display:inline;margin-left:30px;font-size:15px">
+					중계사: 
+				</h2>
+				<h2 style="display:inline;margin-left:5px;margin-right:30px;font-size:15px">
+					<select name="trans_sel" id="trans_sel-select">
+						<option value="0">------------------</option>
+					{% if selInfo.transSelList %}
+						{% for trans in selInfo.transSelList %}
+						<option value="{{ trans.trans_code }}"
+							{% if selCode.transSelCode == trans.trans_code %}
+								selected="selected"
+							{% endif %}>{{ trans.trans_name }}
+						</option>
+						{% endfor %}
+					{% endif %}
+					</select>
+				</h2>
+				<h2 style="display:inline;margin-left:5px;margin-right:30px;font-size:15px">
+					<input type="submit" value="검색" />
+				</h2>
+				</p>
+			</div>
+		</form>
+		{% if selCode.countrySelCode != 0 %}
+			{% if selCode.transSelCode != 0 %}
+			<ul>
+				<div style="margin-top:5px;">
+					<h2 style="display:inline;margin-left:5px;margin-right:30px;">
+						<a href="/setMsg/default" class="abody">> default 설정</a>
+					</h2>
+					<h2 style="display:inline;margin-left:5px;margin-right:30px;"/>
+						<a href="/setMsg/custom" class="abody">> 고객사별 설정</a>
+					</h2>
+				</div>
+			</ul>
+			{% endif %}
+		{% endif %}
+
+		<div class="row">
+			<div>
+			{% block content %}
+			{% endblock %}
+			</div>
+		</div>
+	</body>
+</html>
+

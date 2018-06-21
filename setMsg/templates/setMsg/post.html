@@ -1,0 +1,87 @@
+{% extends 'setMsg/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<ul>
+		<span class="table-row" style="background:#eeeeee;font-weight=bold">
+			<span class="table-cell">tsg_id</span>
+			<span class="table-cell">ts_id</span>
+			<span class="table-cell">country_code</span>
+			<span class="table-cell">ts_code</span>
+			{% if viewFlag == 1 %}
+				<span class="table-cell">msg_header</span>
+				<span class="table-cell">msg_hd_pattern</span>
+			{% else %}
+				<span class="table-cell">sender_id</span>
+				<span class="table-cell">extension_number</span>
+				<span class="table-cell">sender_id_type</span>
+				<span class="table-cell">allow</span>
+			{% endif %}
+		</span>
+	{% if defaultRuleInfo %}
+		{% for defaultRule in defaultRuleInfo %}
+			<a href="{% url 'setMsg:defaultDetail' defaultRule.ts_code %}" method="post">
+				<span class="table-row">
+					<span class="table-cell">{{ trans_name }}</span>
+					<span class="table-cell">{{ defaultRule.ts_id }}</span>
+					<span class="table-cell">{{country_name}} ({{ defaultRule.country_code}})</span>
+					<span class="table-cell">{{ defaultRule.ts_code}}</span>
+
+					{% if viewFlag == 1 %}
+						{% if defaultRule.msg_header is None %}
+							<span class="table-cell"></span>
+						{% else %}
+							<span class="table-cell">{{ defaultRule.msg_header }}</span>
+						{% endif %}
+
+						{% if defaultRule.msg_hd_pattern is None %}
+							<span class="table-cell"></span>
+						{% else %}
+							<span class="table-cell">{{ defaultRule.msg_hd_pattern}}</span>
+						{% endif %}
+					{% else %}
+						{% if defaultRule.sender_id is None %}
+							<span class="table-cell"></span>
+						{% else %}
+							<span class="table-cell">{{ defaultRule.sender_id}}</span>
+						{% endif %}
+
+						{% if defaultRule.extension_number is None %}
+							<span class="table-cell"></span>
+						{% else %}
+							<span class="table-cell">{{ defaultRule.extension_number}}</span>
+						{% endif %}
+
+						{% if defaultRule.sender_id_type is None %}
+							<span class="table-cell"></span>
+						{% else %}
+							<span class="table-cell">{{ defaultRule.sender_id_type}}</span>
+						{% endif %}
+
+						{% if defaultRule.allow is None %}
+							<span class="table-cell"></span>
+						{% else %}
+							<span class="table-cell">{{ defaultRule.allow}}</span>
+						{% endif %}
+					{% endif %}
+				</span>
+			</a>
+		{% endfor %}
+		<!--
+			<span class="table-row">
+				<span class="table-cell"><input type="text" name = "country_code" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "ts_code" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "sender_id" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "msg_header" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "msg_hd_pattern" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "extension_number" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "sender_id_type" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "allow" style="width:80%;"/></span>
+				<span ><input type="submit" class="button" name="insert" value="+"/></span>
+			</span>
+		!-->
+	{% else %}
+	{% endif %}
+	</ul>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'setMsg/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<!--
+	<ul>
+		{% if global_msg %}
+			<h2>{{ global_msg.country_code}}</h2>
+			<h1>{{ global_msg.ts_code}}</h1>
+			<h1>{{ global_msg.sender_id }}</h1>
+		{% else %}
+			<li> error </li>
+		{% endif %}
+	</ul>
+		--!>
+{% endblock %}

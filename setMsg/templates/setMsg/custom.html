@@ -1,0 +1,93 @@
+{% extends 'setMsg/base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<ul>
+		<span class="table-row" style="background:#eeeeee;font-weight=bold">
+			<span class="table-cell">country_code</span>
+			<span class="table-cell">ts_code</span>
+			<span class="table-cell">msg_client_code</span>
+			<span class="table-cell">client_type</span>
+			<span class="table-cell">client_sub_id</span>
+			{% if viewflag == 1 %}
+				<span class="table-cell">msg_header</span>
+			{% else %}
+				<span class="table-cell">sender_id</span>
+				<span class="table-cell">extension_number</span>
+			{% endif %}
+			<span class="table-cell">allow</span>
+		</span>
+	{% if msgRuleInfo %}
+		{% for customRule in msgRuleInfo %}
+			<a href="{% url 'setMsg:defaultDetail'  customRule.ts_code %}" method="post" class="" style=""/>
+				<span class="table-row">
+					<span class="table-cell">{{ country_name }}({{customRule.country_code}})</span>
+					<span class="table-cell">{{ trans_name }}</span>
+					<span class="table-cell">{{ customRule.ts_code }}</span>
+					{% if customRule.msg_client_code is None %}
+						<span class="table-cell"></span>
+					{% else %}
+						<span class="table-cell">{{ customRule.msg_client_code }}</span>
+					{% endif %}
+
+					{% if customRule.client_type is None %}
+						<span class="table-cell"></span>
+					{% else %}
+						<span class="table-cell">{{ customRule.client_type }}</span>
+					{% endif %}
+
+					{% if customRule.client_sub_id is None %}
+						<span class="table-cell"></span>
+					{% else %}
+						<span class="table-cell">{{ customRule.client_sub_id }}</span>
+					{% endif %}
+
+					{% if viewflag == 1 %}
+						{% if customRule.msg_header is None %}
+							<span class="table-cell"></span>
+						{% else %}
+							<span class="table-cell">{{ customRule.msg_header }}</span>
+						{% endif %}
+					{% else %}
+						{% if customRule.sender_id is None %}
+							<span class="table-cell"></span>
+						{% else %}
+							<span class="table-cell">{{ customRule.sender_id }}</span>
+						{% endif %}
+
+						{% if customRule.extension_number is None %}
+							<span class="table-cell"></span>
+						{% else %}
+							<span class="table-cell">{{ customRule.extension_number }}</span>
+						{% endif %}
+
+						{% if customRule.allow is None %}
+							<span class="table-cell"></span>
+						{% else %}
+							<span class="table-cell">{{ customRule.allow }}</span>
+						{% endif %}
+					{% endif %}
+				</span>
+			</a>
+		{% endfor %}
+		<!--
+			<span class="table-row">
+				<span class="table-cell"><input type="text" name = "country_code" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "ts_code" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "msg_client_code" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "client_type" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "client_sub_id" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "sender_id" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "msg_header" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "extension_number" style="width:80%;"/></span>
+				<span class="table-cell"><input type="text" name = "allow" style="width:80%;"/></span>
+				<span ><input type="submit" class="button" name="insert" value="+"/></span>
+			</span>
+		--!>
+	{% else %}
+	{% endif %}
+	</ul>
+{% endblock %}
+
